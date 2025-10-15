@@ -1,0 +1,43 @@
+services:
+  nginx-proxy:
+    image: nginx:alpine
+    container_name: reverse_proxy
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./certs:/etc/nginx/certs
+    networks:
+      suite_network:
+        aliases:
+          - suite-main_nginx
+      suite-dev_network:
+        aliases:
+          - suite-dev_nginx
+      suite-demo_network:
+        aliases:
+          - suite-demo_nginx    
+      cockpitts_network:
+        aliases:
+          - cockpitts_nginx
+      backend:
+        aliases:
+          - reverse_proxy
+
+networks:
+  suite_network:
+    external: true
+    name: suite-main_default
+  suite-dev_network:
+    external: true
+    name: suite-dev_default
+  suite-demo_network:
+    external: true
+    name: suite-demo_default  
+  cockpitts_network:
+    external: true
+    name: cockpitts_default
+  backend:
+    external: true
+    name: backend
