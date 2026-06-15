@@ -1,6 +1,5 @@
 #!/bin/bash
-cd /var/www/html/reverse-proxy && docker compose down
-cd /var/www/html/cockpitts && JZW=1000 docker compose down
-cd /var/www/html/suite-main && docker compose down
-cd /var/www/html/suite-dev && docker compose down
-cd /var/www/html/suite-demo && docker compose down
+cd /var/www/html/isleblue/reverse-proxy && docker compose down
+cd /var/www/html/isleblue/isleblue && docker compose down
+cd /var/www/html/isleblue/api.isleblue && docker compose down
+cd /var/www/html/isleblue/manage.isleblue && docker compose down

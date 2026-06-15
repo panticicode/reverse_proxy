@@ -9,35 +9,29 @@ services:
       - ./nginx.conf:/etc/nginx/nginx.conf
       - ./certs:/etc/nginx/certs
     networks:
-      suite_network:
+      isleblue_network:
         aliases:
-          - suite-main_nginx
-      suite-dev_network:
+          - isleblue_nginx
+      isleblue_api_network:
         aliases:
-          - suite-dev_nginx
-      suite-demo_network:
+          - isleblue_api_nginx
+      isleblue_manage_network:
         aliases:
-          - suite-demo_nginx    
-      cockpitts_network:
-        aliases:
-          - cockpitts_nginx
+          - isleblue_manage_nginx    
       backend:
         aliases:
           - reverse_proxy
 
 networks:
-  suite_network:
+  isleblue_network:
     external: true
-    name: suite-main_default
-  suite-dev_network:
+    name: isleblue_default
+  isleblue_api_network:
     external: true
-    name: suite-dev_default
-  suite-demo_network:
+    name: isleblueapi_default
+  isleblue_manage_network:
     external: true
-    name: suite-demo_default  
-  cockpitts_network:
-    external: true
-    name: cockpitts_default
+    name: islebluemanage_default  
   backend:
     external: true
     name: backend
