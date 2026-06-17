@@ -77,7 +77,7 @@ mkcert -install
 ### Use mkcert to generate local SSL certificates for all domains:
 
 ```bash
-mkcert suite.local cockpitts.local phpmyadmin.suite.local phpmyadmin.cockpitts.local
+mkcert isleblue.local stmartinblue.local stbartsblue.local barbadosblue.local api.isleblue.local manage.isleblue.local phpmyadmin.isleblue.local 
 ```
 
 This will generate .pem and .key files inside the project’s certs directory.
