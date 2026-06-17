@@ -1,0 +1,117 @@
+services:
+  nginx:
+    build:
+      context: .
+      dockerfile: nginx.dockerfile
+    container_name: isleblue_api_nginx
+    depends_on:
+      - php
+      - mysql
+      - redis
+    volumes:
+      - ./src:/var/www/html    
+    networks:
+      - default
+      - backend  
+
+  php:
+    build:
+      context: .
+      dockerfile: php.dockerfile
+      args:
+        user: laravel
+        uid: ${UID:-1000}
+    container_name: isleblue_api_php
+    volumes:
+      - ./src:/var/www/html  
+    networks:
+      - default
+      - backend  
+
+  mysql:
+    image: mysql:8.0
+    container_name: isleblue_api_mysql
+    env_file:
+      - .env
+    ports:
+      - "3310:3310"
+    volumes:
+      - mysql:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+
+  composer:
+    image: composer:latest
+    container_name: isleblue_api_composer
+    user: ${UID:-1000}
+    volumes:
+      - ./src:/var/www/html
+    working_dir: /var/www/html  
+
+  artisan:
+    build:
+      context: .
+      dockerfile: php.dockerfile
+      args:
+        user: laravel
+        uid: ${UID:-1000}
+    container_name: isleblue_api_artisan
+    volumes:
+      - ./src:/var/www/html
+    working_dir: /var/www/html
+    entrypoint: ["php", "artisan"]
+    networks:
+      - default
+      - backend
+
+  npm:
+    image: node:22
+    container_name: isleblue_api_npm
+    volumes:
+      - ./src:/var/www/html
+    working_dir: /var/www/html
+    user: ${UID:-1000}
+    entrypoint: ["npm"]
+
+  phpunit:
+    build:
+      context: .
+      dockerfile: php.dockerfile
+      args:
+        user: laravel
+        uid: ${UID:-1000}
+    container_name: isleblue_api_phpunit
+    volumes:
+      - ./src:/var/www/html
+    working_dir: /var/www/html
+    entrypoint: ["/var/www/html/vendor/bin/phpunit"]
+
+  redis:
+    image: redis:latest
+    container_name: isleblue_api_redis
+    ports:
+      - 6378:6378
+
+  scheduler:
+    build:
+      context: .
+      dockerfile: php.dockerfile
+      args:
+        user: laravel
+        uid: ${UID:-1000}
+    container_name: isleblue_api_scheduler
+    volumes:
+      - ./src:/var/www/html
+    working_dir: /var/www/html
+    entrypoint: ["php", "artisan", "schedule:work"]
+        
+volumes:
+  mysql:
+
+networks:
+  default: {}
+  backend:
+    external: true

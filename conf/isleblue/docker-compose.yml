@@ -3,7 +3,7 @@ services:
     build:
       context: .
       dockerfile: nginx.dockerfile
-    container_name: suite_nginx
+    container_name: isleblue_nginx
     depends_on:
       - php
       - mysql
@@ -21,7 +21,7 @@ services:
       args:
         user: laravel
         uid: ${UID:-1000}
-    container_name: suite_php
+    container_name: isleblue_php
     volumes:
       - ./src:/var/www/html  
     networks:
@@ -29,23 +29,23 @@ services:
       - backend  
 
   mysql:
-    image: mariadb:10.5.9
-    container_name: suite_mysql
+    image: mariadb:10.11
+    container_name: isleblue_mysql
     env_file:
       - .env
     ports:
-      - 3308:3306
+      - "3312:3312"
     volumes:
       - mysql:/var/lib/mysql
     environment:
       MYSQL_DATABASE: ${DB_DATABASE}
       MYSQL_USER: ${DB_USERNAME}
       MYSQL_PASSWORD: ${DB_PASSWORD}
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}    
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
 
   composer:
     image: composer:latest
-    container_name: suite_composer
+    container_name: isleblue_composer
     user: ${UID:-1000}
     volumes:
       - ./src:/var/www/html
@@ -58,7 +58,7 @@ services:
       args:
         user: laravel
         uid: ${UID:-1000}
-    container_name: suite_artisan
+    container_name: isleblue_artisan
     volumes:
       - ./src:/var/www/html
     working_dir: /var/www/html
@@ -69,7 +69,7 @@ services:
 
   npm:
     image: node:22
-    container_name: suite_npm
+    container_name: isleblue_npm
     volumes:
       - ./src:/var/www/html
     working_dir: /var/www/html
@@ -83,7 +83,7 @@ services:
       args:
         user: laravel
         uid: ${UID:-1000}
-    container_name: suite_phpunit
+    container_name: isleblue_phpunit
     volumes:
       - ./src:/var/www/html
     working_dir: /var/www/html
@@ -91,9 +91,9 @@ services:
 
   redis:
     image: redis:latest
-    container_name: suite_redis
+    container_name: isleblue_redis
     ports:
-      - 6380:6379
+      - 6376:6376
 
   scheduler:
     build:
@@ -102,7 +102,7 @@ services:
       args:
         user: laravel
         uid: ${UID:-1000}
-    container_name: suite_scheduler
+    container_name: isleblue_scheduler
     volumes:
       - ./src:/var/www/html
     working_dir: /var/www/html
@@ -110,7 +110,7 @@ services:
 
   phpmyadmin: 
     image: phpmyadmin/phpmyadmin
-    container_name: suite_phpmyadmin
+    container_name: isleblue_phpmyadmin
     depends_on:
       - mysql
     environment:
@@ -118,7 +118,7 @@ services:
       PMA_PORT: 3306
       UPLOAD_LIMIT: 100M
     ports:
-      - 8082:80
+      - 8083:80
         
 volumes:
   mysql:
