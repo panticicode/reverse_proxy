@@ -10,14 +10,14 @@ This project provides a local reverse proxy setup with SSL certificates for mult
 
 ---
 
-## Step 1: Configure Suite and Cockpit for Reverse Proxy
+## Step 1: Configure IsleBlue for Reverse Proxy
 
 For local development behind the reverse proxy:
 
 - Remove the `ports` section from their `docker-compose.yml` files. The containers should only expose their internal ports.
-- Configure Nginx inside Suite and Cockpit to listen **only on port 80**, without redirecting to HTTPS.
+- Configure Nginx inside IsleBlue to listen **only on port 80**, without redirecting to HTTPS.
 
-### Example `default.conf` for Suite or Cockpit:
+### Example `default.conf` for IsleBlue or Cockpit:
 
 ```nginx
 server {
@@ -87,7 +87,7 @@ This will generate .pem and .key files inside the project’s certs directory.
 ### Important: Each project has its own folder and docker-compose.yml.  
 You must start them in the following order:
 
-1. **Suite** containers  
+1. **IsleBlue** containers  
 ```bash
 cd /path/to/suite
 docker-compose up -d
@@ -107,7 +107,7 @@ docker-compose up -d
 
 ## Optional: Quickly Start or Stop All Containers
 
-1️⃣ Build Containers & Create Shared Network for Suite and Cockpitts Communication (First Time Only)
+1️⃣ Build Containers & Create Shared Network for IsleBlue Apps Communication (First Time Only)
 
 ```bash
 bash build.sh
@@ -119,7 +119,7 @@ bash network.sh
 
 2️⃣ Start All Containers
 
-⚠️ Start in order: Suite → Cockpitts → Reverse Proxy
+⚠️ Start in order: IsleBlue → IsleBLueManage → IsleBlueApi → Reverse Proxy
 
 ```bash
 bash start.sh
@@ -127,7 +127,7 @@ bash start.sh
 
 3️⃣ Stop All Containers
 
-⚠️ Stop in reverse order: Reverse Proxy → Cockpitts → Suite
+⚠️ Stop in reverse order: Reverse Proxy → IsleBlue → IsleBlueManage → IsleBlueApi
 
 ```bash
 bash stop.sh
@@ -137,10 +137,10 @@ bash stop.sh
 
 ✅ After starting, you can access the services via:
 
-[Suite](https://suite.local)
+[IsleBlue](https://isleblue.local)
 
-[Cockpitts](https://cockpitts.local)
+[ManageIsleBlue](https://manage.isleblue.local)
 
-[Suite phpMyAdmin](https://phpmyadmin.suite.local)
+[ApiIsleBlue](https://api.isleblue.local)
 
-[Cockpitts phpMyAdmin](https://phpmyadmin.cockpitts.local)
+[IsleBlue phpMyAdmin](https://phpmyadmin.isleblue.local)
